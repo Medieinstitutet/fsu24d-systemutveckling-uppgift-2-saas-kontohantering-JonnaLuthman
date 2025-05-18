@@ -3,14 +3,13 @@
     require_once __DIR__ . '/../private/includes/auth_functions.php';
     require_once __DIR__ . '/../private/includes/user_functions.php';
 
-?>
 
+?>
 <?php
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'] ?? '';
     $password = $_POST['password'] ?? '';
     
-
     $registered_user = find_user($email);
 
     if(!$registered_user) {
@@ -24,7 +23,7 @@
     $signed_in = sign_in($email, $password);
 
     if ($signed_in) {
-        // header("Location: allNewsletters.php");
+        header("Location: allNewsletters.php");
         echo "Signed in";
         exit;
     } else {
@@ -55,6 +54,6 @@
 
 
 <?php
-    // require_once __DIR__ . '/../private/templates/header.php';
+
     require_once __DIR__ . '/../private/templates/footer.php';
 ?>

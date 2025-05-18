@@ -1,15 +1,17 @@
 <?php
+session_start();
 require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/navbar.php';
 require_once __DIR__ . '/../includes/auth_functions.php';
+require_once __DIR__ . '/../includes/user_functions.php';
 ?>
 
 <!DOCTYPE html>
 <html lang="sv">
 <head>
-  <meta charset="UTF-8">
-  <title>Min sida</title>
-  <link rel="stylesheet" href="/public/main.css">
+    <meta charset="UTF-8">
+    <title>Min sida</title>
+    <link rel="stylesheet" href="/public/main.css">
 </head>
 <body>
   <header>
@@ -22,14 +24,14 @@ require_once __DIR__ . '/../includes/auth_functions.php';
   ?>
 
     <div class="navbar">
-        <span>Välkommen, <?php echo ($user['name']); ?>!</span>
+        <span>Welcome, <?php echo ($user['name']); ?>!</span>
         <form method="post" action="<?php echo BASE_PATH . 'logout.php'; ?>">
             <button type="submit">Logga ut</button>
         </form>
     </div>
   <?php else: ?>
     <div class="navbar">
-        <a href="/login.php">Logga in</a>
+        <a href="/public/login.php">Logga in</a>
     </div>
   <?php endif; ?>
 
