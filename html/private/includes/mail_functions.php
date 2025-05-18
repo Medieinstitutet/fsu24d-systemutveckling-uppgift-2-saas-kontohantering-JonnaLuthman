@@ -34,26 +34,10 @@ function send_email($to, $subject, $text, $from = 'jonna.luthman@hotmail.com', $
 
     }
 
-
-function find_user($email) {
-    global $connection;
-
-    $query = "SELECT * FROM users WHERE email='$email'";
-    $result = $connection->query($query);
-
-    if ($result->num_rows > 0) {
-
-    return true;    
-    } else {
-       return false;  
-    }
-}
-
 function create_newsletter($user_email, $title = '', $description = '') {
     global $connection;
 
     $query = "INSERT INTO `newsletter`(`title`, `description`, `user_email`) VALUES ('$title','$description','$user_email')";
-    var_dump($query);
 
     try {
         $result = $connection->query($query);

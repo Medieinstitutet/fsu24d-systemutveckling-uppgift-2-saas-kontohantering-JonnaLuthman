@@ -19,13 +19,13 @@ function sign_up($name, $email, $password, $role) {
         }
 }
 
-function sign_in($username, $password) {
+function sign_in($email, $password) {
     global $connection;
 
     // $salt = SALT;
     // $hashed_password = hash('sha256', $password.$salt);
 
-    $query = "SELECT * FROM users WHERE email = '$username' AND password = '$password' LIMIT 1";
+    $query = "SELECT * FROM users WHERE email = '$email' AND password = '$password' LIMIT 1";
     $result = $connection->query($query);
 
     $has_user = ($result->num_rows === 1);
@@ -41,7 +41,7 @@ function sign_in($username, $password) {
         return $user;
 
     } else {
-    echo("Log in not successful");
+        echo("Log in not successful");
     }
 
 }

@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../private/includes/mail_functions.php';
+require_once __DIR__ . '/../private/includes/user_functions.php';
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
