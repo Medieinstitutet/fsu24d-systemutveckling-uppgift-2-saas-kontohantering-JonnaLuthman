@@ -23,7 +23,7 @@
     $signed_in = sign_in($email, $password);
 
     if ($signed_in) {
-        header("Location: allNewsletters.php");
+        header("Location: all_newsletters.php");
         echo "Signed in";
         exit;
     } else {
@@ -33,7 +33,7 @@
 ?>
 
 <main>
-    <p><strong><?php echo  "Login" ?></strong></p>
+    <p><strong><?php echo "Login" ?></strong></p>
 
     <form method="POST">
             <label for="mail">Email:</label>
@@ -47,7 +47,7 @@
             <button type="submit">Login</button>
 
             <button type="button" class="cancelbtn">Cancel</button>
-            <span class="psw">Forgot <a href="resetPassword.php">password?</a></span>
+            <span class="psw">Forgot <a href="reset_password.php">password?</a></span>
     </form>
 
 </main>

@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/user_functions.php';
 global $connection;
 
 function sign_up($name, $email, $password, $role) {
@@ -11,7 +12,7 @@ function sign_up($name, $email, $password, $role) {
         $query = "INSERT INTO users (name, email, password, role) VALUES ('$name', '$email', '$password', '$role')";
 
         try {
-            $result = $connection->query($query);
+            $connection->query($query);
             return true;
         } catch (Exception $e) {
             return false;
@@ -53,7 +54,7 @@ function sign_out() {
         session_destroy();
         
         
-        header('Location: signedOut.php');
+        header('Location: signed_out.php');
         exit;
     } else {
         echo "Utloggning misslyckades – du var inte inloggad.";
@@ -69,7 +70,12 @@ function require_signed_in_user_or_redirect() {
     return $_SESSION['user'];
 }
 
-// functoin require_role() {
+function require_role($email) {
 
-// }
+    $user = require_signed_in_user_or_redirect();
+    $user_role = user_has_role($user['email']);
+
+
+    return $user_role;
+}
 ?>

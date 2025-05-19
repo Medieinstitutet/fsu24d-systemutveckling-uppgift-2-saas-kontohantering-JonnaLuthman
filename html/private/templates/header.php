@@ -17,7 +17,6 @@ require_once __DIR__ . '/../includes/user_functions.php';
   <header>
     <h1>Välkommen!</h1>
 
-
   <?php
     if (is_signed_in()):
         $user = current_user();
@@ -29,10 +28,11 @@ require_once __DIR__ . '/../includes/user_functions.php';
             <button type="submit">Logga ut</button>
         </form>
     </div>
+
   <?php else: ?>
-    <div class="navbar">
-        <a href="/public/login.php">Logga in</a>
-    </div>
+      <div class="navbar">
+          <a href="/public/login.php">Logga in</a>
+      </div>
   <?php endif; ?>
 
   </header>

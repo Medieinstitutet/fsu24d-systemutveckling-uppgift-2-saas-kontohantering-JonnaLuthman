@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../private/includes/mail_functions.php';
+require_once __DIR__ . '/../private/includes/newsletter_functions.php';
 require_once __DIR__ . '/../private/includes/user_functions.php';
 
 
@@ -21,7 +22,6 @@ if (!find_user($from)) {
     echo json_encode(['error' => 'User not found. Please register first.']);
     exit;
 }
-
 
 $to = 'jonna.luthman@hotmail.com';  
 $email_result = send_email($to, $subject, $text, $from, $name);

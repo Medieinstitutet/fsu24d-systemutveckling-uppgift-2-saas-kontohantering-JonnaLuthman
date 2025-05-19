@@ -1,4 +1,4 @@
-<form method="POST" action="sendMail.php">
+<form method="POST" action="send_newsletter.php">
     <label for="name">Your name:</label>
     <input type="text" name="name" required>
 

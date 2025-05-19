@@ -32,7 +32,80 @@ function get_user_id($email) {
     }
 }
 
+function user_has_role($email) {
+    global $connection;
+
+    $query = "SELECT role FROM users WHERE email='$email'";
+    $result = $connection->query($query);
+
+    if ($result && $result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+
+        return $row['role'];
+    } 
+    else {
+        return false;
+    }
+}
+
 function current_user() {
     return $_SESSION['user'] ?? null;
 }
+
+function save_reset_code($email, $reset_code) {
+    global $connection;
+
+    $query = "INSERT INTO `password_resets`(`email`, `reset_code`) VALUES ('$email','$reset_code')";
+    $result = $connection->query($query);
+
+      if ($result === true) {
+        return ['message' => 'Reset code saved'];
+    } else {
+        return ['error' => $connection->error];
+    }
+}
+
+function get_reset_code($reset_code) {
+    global $connection;
+
+    $query = "SELECT email, reset_code FROM password_resets WHERE reset_code='$reset_code'";
+    $result = $connection->query($query);
+
+    if ($result && $result->num_rows > 0) {
+    return $result->fetch_assoc();
+    } else {
+        return ['error' => $connection->error];
+    }
+}
+
+function change_password($new_psw, $email){
+    global $connection;
+
+    $query = "UPDATE `users` SET `password`='$new_psw' WHERE email='$email'";
+    $result = $connection->query($query);
+    var_dump($result);
+
+    if ($result === true) {
+        return true;
+    } else {
+        return ['error' => $connection->error];
+    }
+}
+
+function delete_reset_code($email) {
+       global $connection;
+
+    $query = "DELETE FROM `password_resets` WHERE email='$email'";
+    $result = $connection->query($query);
+
+    if ($result === true) {
+        return ['message' => 'Password updated'];
+    } else {
+        return ['error' => $connection->error];
+    }
+}
+
+
+
+
 ?>

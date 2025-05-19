@@ -5,7 +5,13 @@
     require_once __DIR__ . '/../private/includes/user_functions.php';
 
         $user = require_signed_in_user_or_redirect();
+
         $user_email = $user['email'];
+
+        if(!require_role($user_email) === 'subscriber') {
+            header("Location: /public/not_authorized.php");
+        };
+
         $user_id = get_user_id($user_email);
 
         if(!$user_id) {
@@ -14,6 +20,7 @@
         }
 
         $newsletters = get_user_subscriptions($user_id);
+        var_dump("Newsletter in my subscriptions");
 
         if (!$newsletters || count($newsletters) === 0) {
             echo "<p>Du prenumererar inte på några nyhetsbrev ännu.</p>";
