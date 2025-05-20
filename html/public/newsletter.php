@@ -3,11 +3,9 @@ session_start();
 require_once __DIR__ . "/../private/config.php";
 require_once __DIR__ . "/../private/includes/newsletter_functions.php";
 require_once __DIR__ . "/../private/includes/user_functions.php";
+require_once __DIR__ . "/../private/includes/utils.php";
 
-if (isset($_SESSION['message'])) {
-    echo "<p>{$_SESSION['message']}</p>";
-    unset($_SESSION['message']);
-}
+display_message();
 
 $newsletter_id = $_GET['id'];
 $newsletter = get_newsletter($newsletter_id);
