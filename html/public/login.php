@@ -6,6 +6,13 @@
 
 ?>
 <?php
+    $redirect_url = $_GET['redirectTo'] ?? get_login_redirect_url();
+
+    if(is_signed_in()) {
+        header("Location: $redirect_url");
+        exit;
+    }
+
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'] ?? '';
     $password = $_POST['password'] ?? '';
@@ -22,9 +29,9 @@
 
     $signed_in = sign_in($email, $password);
 
+
     if ($signed_in) {
-        header("Location: all_newsletters.php");
-        echo "Signed in";
+        header("Location: $redirect_url");
         exit;
     } else {
         $error = "Invalid email or password.";
@@ -47,7 +54,7 @@
             <button type="submit">Login</button>
 
             <button type="button" class="cancelbtn">Cancel</button>
-            <span class="psw">Forgot <a href="reset_password.php">password?</a></span>
+            <span>Forgot <a href="reset_password.php">password?</a></span>
     </form>
 
 </main>
