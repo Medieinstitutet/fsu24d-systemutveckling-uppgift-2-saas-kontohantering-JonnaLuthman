@@ -1,0 +1,1 @@
+<p>My newsletters - customer</p>
