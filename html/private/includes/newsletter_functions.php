@@ -46,7 +46,7 @@ function get_newsletter_summary($id)
     }
 }
 
-function get_user_subscriptions($user_id)
+function get_subscriptions_by_user_id($user_id)
 {
     global $connection;
 
@@ -128,4 +128,30 @@ function unsubscribe_to_newsletter($user_id, $newsletter_id)
     } else {
         return false;
     }
+}
+
+function get_newsletters_by_customer_id($user_email) {
+    global $connection;
+
+    $query = "SELECT * FROM `newsletters` WHERE user_email='$user_email'";
+    $result = $connection->query($query);
+
+    if ($result && $result->num_rows > 0) {
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    return [];
+}
+
+function get_subscribers_by_newsletter_id($newsletter_id) {
+      global $connection;
+
+    $query = "SELECT user_id FROM `subscriptions` WHERE newsletter_id='$newsletter_id'";
+    $result = $connection->query($query);
+
+    if ($result && $result->num_rows > 0) {
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    return [];
 }

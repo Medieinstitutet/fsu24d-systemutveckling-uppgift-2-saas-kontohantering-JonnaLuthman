@@ -25,7 +25,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $signed_in = sign_in($email, $password);
 
-
     if ($signed_in) {
         header("Location: $redirect_url");
         exit;

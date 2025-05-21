@@ -19,7 +19,7 @@
             exit;
         }
 
-        $newsletters = get_user_subscriptions($user_id);
+        $newsletters = get_subscriptions_by_user_id($user_id);
         var_dump("Newsletter in my subscriptions");
 
         if (!$newsletters || count($newsletters) === 0) {

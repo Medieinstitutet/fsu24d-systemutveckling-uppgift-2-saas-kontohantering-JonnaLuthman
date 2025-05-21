@@ -2,7 +2,8 @@
 require_once __DIR__ . '/../config.php';
 global $connection;
 
-function find_user($email) {
+function find_user($email)
+{
     global $connection;
 
     $query = "SELECT * FROM users WHERE email='$email'";
@@ -10,13 +11,30 @@ function find_user($email) {
 
     if ($result->num_rows > 0) {
 
-    return true;    
+        return true;
     } else {
-       return false;  
+        return false;
     }
 }
 
-function get_user_id($email) {
+function get_user_by_id($id)
+{
+    global $connection;
+
+    $query = "SELECT `name`, `email` FROM users WHERE id='$id'";
+    $result = $connection->query($query);
+
+    if ($result && $result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+
+        return $row;
+    } else {
+        return [];
+    }
+}
+
+function get_user_id($email)
+{
     global $connection;
 
     $query = "SELECT id FROM users WHERE email='$email'";
@@ -26,13 +44,13 @@ function get_user_id($email) {
         $row = $result->fetch_assoc();
 
         return $row['id'];
-    } 
-    else {
+    } else {
         return [];
     }
 }
 
-function user_has_role($email) {
+function user_has_role($email)
+{
     global $connection;
 
     $query = "SELECT role FROM users WHERE email='$email'";
@@ -42,43 +60,46 @@ function user_has_role($email) {
         $row = $result->fetch_assoc();
 
         return $row['role'];
-    } 
-    else {
+    } else {
         return false;
     }
 }
 
-function current_user() {
+function current_user()
+{
     return $_SESSION['user'] ?? null;
 }
 
-function save_reset_code($email, $reset_code) {
+function save_reset_code($email, $reset_code)
+{
     global $connection;
 
     $query = "INSERT INTO `password_resets`(`email`, `reset_code`) VALUES ('$email','$reset_code')";
     $result = $connection->query($query);
 
-      if ($result === true) {
+    if ($result === true) {
         return ['message' => 'Reset code saved'];
     } else {
         return ['error' => $connection->error];
     }
 }
 
-function get_reset_code($reset_code) {
+function get_reset_code($reset_code)
+{
     global $connection;
 
     $query = "SELECT email, reset_code FROM password_resets WHERE reset_code='$reset_code'";
     $result = $connection->query($query);
 
     if ($result && $result->num_rows > 0) {
-    return $result->fetch_assoc();
+        return $result->fetch_assoc();
     } else {
         return ['error' => $connection->error];
     }
 }
 
-function change_password($new_psw, $email){
+function change_password($new_psw, $email)
+{
     global $connection;
 
     $query = "UPDATE `users` SET `password`='$new_psw' WHERE email='$email'";
@@ -92,8 +113,9 @@ function change_password($new_psw, $email){
     }
 }
 
-function delete_reset_code($email) {
-       global $connection;
+function delete_reset_code($email)
+{
+    global $connection;
 
     $query = "DELETE FROM `password_resets` WHERE email='$email'";
     $result = $connection->query($query);
@@ -104,8 +126,3 @@ function delete_reset_code($email) {
         return ['error' => $connection->error];
     }
 }
-
-
-
-
-?>
