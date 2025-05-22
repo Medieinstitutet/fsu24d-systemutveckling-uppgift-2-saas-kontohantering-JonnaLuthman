@@ -1,8 +1,9 @@
 <?php
-    session_start();
+    require_once __DIR__ . '/../private/init.php';
     require_once __DIR__ . '/../private/includes/newsletter_functions.php';
     require_once __DIR__ . '/../private/includes/auth_functions.php';
     require_once __DIR__ . '/../private/includes/user_functions.php';
+    require_once __DIR__ . '/../private/templates/navbar.php';
 
         $user = require_signed_in_user_or_redirect();
 
@@ -20,7 +21,6 @@
         }
 
         $newsletters = get_subscriptions_by_user_id($user_id);
-        var_dump("Newsletter in my subscriptions");
 
         if (!$newsletters || count($newsletters) === 0) {
             echo "<p>Du prenumererar inte på några nyhetsbrev ännu.</p>";
@@ -40,4 +40,5 @@
     }
     ?>
 </main>
+<?php require_once __DIR__ . '/../private/templates/footer.php'; ?>
 
