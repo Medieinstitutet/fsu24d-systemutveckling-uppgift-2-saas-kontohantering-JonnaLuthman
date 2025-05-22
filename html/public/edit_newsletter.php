@@ -1,22 +1,32 @@
 <?php
-session_start();
-require_once __DIR__ . "/../private/config.php";
+require_once __DIR__ . "/../private/init.php";
 require_once __DIR__ . "/../private/includes/newsletter_functions.php";
 require_once __DIR__ . "/../private/includes/utils.php";
+
 
 $newsletter_id = $_GET['id'] ?? '';
 $newsletter = get_newsletter_summary($newsletter_id);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $title = $_POST['title'];
-    $description = $_POST['description'];
+    if (isset($_POST['delete'])) {
+        if (delete_newsletter($newsletter_id)) {
+            $_SESSION['message'] = "Newsletter deleted successfully";
+            header("Location: my_newsletters.php");
+            exit;
+        }
+    } else {
+        $title = $_POST['title'];
+        $description = $_POST['description'];
 
-    if (update_newsletter($title, $description, $newsletter_id)) {
-        $_SESSION['message'] = "Newsletter updated successfully";
-        header("Location: edit_newsletter.php?id=" . $newsletter_id);
-        exit;
+        if (update_newsletter($title, $description, $newsletter_id)) {
+            $_SESSION['message'] = "Newsletter updated successfully";
+            header("Location: edit_newsletter.php?id=" . $newsletter_id);
+            exit;
+        }
     }
 }
+
+require_once __DIR__ . '/../private/templates/navbar.php';
 ?>
 
 <h1>Edit newsletter</h1>
@@ -29,7 +39,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <input type="textarea" name="description" value="<?php echo $newsletter['description']; ?>">
 
     <button type="submit">Update</button>
-    <?php
-        display_message();
-    ?>
+    <?php display_message(); ?>
 </form>
+
+<form method="post" onsubmit="return confirm('Are you sure you want to delete this newsletter?');">
+    <input type="hidden" name="delete" value="1" />
+    <button type="submit">Delete</button>
+</form>
+
+<?php
+require_once __DIR__ . '/../private/templates/footer.php';
+?>

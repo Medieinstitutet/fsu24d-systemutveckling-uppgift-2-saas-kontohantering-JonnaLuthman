@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../private/init.php';
 require_once __DIR__ . '/../private/includes/mail_functions.php';
 require_once __DIR__ . '/../private/includes/newsletter_functions.php';
 require_once __DIR__ . '/../private/includes/user_functions.php';
@@ -11,15 +12,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = $_POST['name'] ?? 'Anonymous';
 
 if(empty($from)) {
-    http_response_code(400);
-    echo json_encode(['error' => 'No sender address given.']);
+    $_SESSION['error_message'] = 'No sender address given.';
+    header('Location: send_newsletter.php');
     exit;
 }
 
-
 if (!find_user($from)) {
-    http_response_code(404);
-    echo json_encode(['error' => 'User not found. Please register first.']);
+    $_SESSION['error_message'] = 'User not found. Please register first.';
+    header('Location: send_newsletter.php');
     exit;
 }
 

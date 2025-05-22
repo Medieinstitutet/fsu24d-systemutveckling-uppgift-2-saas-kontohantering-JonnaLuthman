@@ -1,15 +1,49 @@
-<form method="POST" action="send_newsletter.php">
-    <label for="name">Your name:</label>
-    <input type="text" name="name" required>
+<?php 
+require_once __DIR__ . '/../private/init.php';
+require_once __DIR__ . '/../private/includes/mail_functions.php';
+require_once __DIR__ . '/../private/includes/newsletter_functions.php';
+require_once __DIR__ . '/../private/includes/user_functions.php';
+require_once __DIR__ . '/../private/includes/utils.php';
+require_once __DIR__ . '/../private/templates/navbar.php';
 
-    <label for="email">Your email:</label>
-    <input type="email" name="from" required>
+$user = current_user();
 
-    <label for="subject">Subject:</label>
-    <input type="text" name="subject" required>
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $title = $_POST['title'] ?? 'No title';
+    $description = $_POST['description'] ?? 'Empty message';
 
-    <label for="text">Message:</label>
-    <input type="text" name="text" required>
+
+if (!find_user($user['email'])) {
+    $_SESSION['error_message'] = 'User not found. Please register first.';
+    header('Location: send_newsletter.php');
+    exit;
+}
+
+$newsletter_result = create_newsletter($user['email'], $title, $description);
+    if(!$newsletter_result) {
+            $_SESSION['error_message'] = 'Could not create newsletter';
+    } else {
+        $_SESSION['message'] = 'Newsletter created succesfully. Go to <a href="/public/my_newsletters.php">My newsletters</a> to see your newsletters.';
+    }
+}
+?>
+
+<h1>Create newsletter</h1>
+<form method="POST">
+    <input type="hidden" name="email" value= <?php echo $user['email']; ?> >
+
+    <label for="title">Title:</label>
+    <input type="text" name="title" required>
+
+    <label for="description">Description:</label>
+    <input type="text" name="description" required>
 
     <button type="submit">Send</button>
 </form>
+
+<?php if (!empty($_SESSION['message'])):
+    display_message();
+endif;
+
+require_once __DIR__ . '/../private/templates/footer.php'; 
+?>

@@ -69,13 +69,28 @@ function create_newsletter($user_email, $title = '', $description = '')
     global $connection;
 
     $query = "INSERT INTO `newsletters`(`title`, `description`, `user_email`) VALUES ('$title','$description','$user_email')";
+    $result = $connection->query($query);
 
-    try {
-        $result = $connection->query($query);
+    if ($result) {
         return true;
-    } catch (exception $error) {
-        return $error ? ['error' => $error] : ['message' => $result];
+    } else {
+        return false;
     }
+    
+}
+function delete_newsletter($newsletter_id)
+{
+    global $connection;
+
+    $query = "DELETE FROM `newsletters` WHERE id='$newsletter_id'";
+    $result = $connection->query($query);
+
+    if ($result) {
+        return true;
+    } else {
+        return false;
+    }
+    
 }
 
 function update_newsletter($title, $description, $newsletter_id)

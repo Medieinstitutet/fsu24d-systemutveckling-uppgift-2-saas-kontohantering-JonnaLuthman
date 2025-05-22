@@ -1,8 +1,8 @@
 <?php
+    require_once __DIR__ . '/../private/init.php';
     require_once __DIR__ . '/../private/config.php';
-    require_once __DIR__ . '/../private/templates/header.php';
+    require_once __DIR__ . '/../private/templates/navbar.php';
     require_once __DIR__ . '/../private/includes/newsletter_functions.php';
-    global $connection;
 ?>
 
 <main>
