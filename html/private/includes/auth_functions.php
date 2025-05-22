@@ -88,12 +88,14 @@ function require_role($email)
 function get_login_redirect_url()
 {
     $user = current_user();
-    $user_role = user_has_role($user['email']);
+    if ($user) {
+        $user_role = user_has_role($user['email']);
 
-    switch ($user_role) {
-        case 'customer':
-            return '/public/dashboard_customer.php';
-        case 'subscriber':
-            return '/public/dashboard_subscriber.php';
+        switch ($user_role) {
+            case 'customer':
+                return '/public/dashboard_customer.php';
+            case 'subscriber':
+                return '/public/dashboard_subscriber.php';
+        }
     }
 }
