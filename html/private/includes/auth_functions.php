@@ -53,10 +53,8 @@ function is_signed_in()
 function sign_out()
 {
     if (is_signed_in()) {
-
         session_unset();
         session_destroy();
-
 
         header('Location: signed_out.php');
         exit;
@@ -67,7 +65,6 @@ function sign_out()
 
 function require_signed_in_user_or_redirect()
 {
-
     if (!isset($_SESSION['user']) || !isset($_SESSION['user']['email'])) {
         header("Location: /public/login.php");
         exit;
@@ -77,10 +74,8 @@ function require_signed_in_user_or_redirect()
 
 function require_role($email)
 {
-
     $user = require_signed_in_user_or_redirect();
     $user_role = user_has_role($user['email']);
-
 
     return $user_role;
 }

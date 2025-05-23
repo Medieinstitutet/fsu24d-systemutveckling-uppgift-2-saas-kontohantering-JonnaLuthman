@@ -9,24 +9,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
 
     $reset_code = bin2hex(random_bytes(8));
-    $text = "Hello, this is your code to reset your password: $reset_code .";
-
+    $text = "Hello, this is your code to reset your password: $reset_code . Press following link to reset your password: http://localhost:8080/public/change_password.php. ";
+    
     if (!find_user($email)) {
         $_SESSION['message'] = 'We cannot find you email.';
         header('Location: reset_password_page.php');
         exit;
     }
-
+    
     $to = 'jonna.luthman@hotmail.com';
     $email_result = send_email($email, "Reset password", $text);
-
+    
     if (isset($email_result['message'])) {
-        $reset_code_result = save_reset_code($email, $reset_code);
-        $_SESSION['message'] = "Great, we have sent you an email to make sure it's really you. 
-                    Please check your inbox and use the code to reset your password. 
-                    If you cannot find the email, check you junk mail";
+        save_reset_code($email, $reset_code);
+        $reset_code_result = change_password($reset_code, $email);
+        $_SESSION['message'] = "Great! we have sent you an email to make sure it's really you. 
+        Please check your inbox and use the code to reset your password. 
+        If you cannot find the email, check you junk mail.";
+        
     } else {
-        $_SESSION['message'] = 'Error. Mail could not be sent. Contact us for assistance';
+        $_SESSION['message'] = 'Error. Mail could not be sent. Contact us for further assistance.';
     }
 }
 
@@ -45,10 +47,12 @@ require_once __DIR__ . '/../private/templates/navbar.php';
             </br>
             <button type=submit>Reset password</button>
         </form>
-        <span><a href="login.php">Back</a></span>
-        <?php if (!empty($_SESSION['message']) || !empty($_SESSION['error_message'])):
-            display_message();
-        endif; ?>
+        <span><a href="login.php">Go back to login</a></span>
+        <?php 
+            if (!empty($_SESSION['message']) || !empty($_SESSION['error_message'])):
+                display_message();
+            endif; 
+        ?>
     </body>
 </main>
 
