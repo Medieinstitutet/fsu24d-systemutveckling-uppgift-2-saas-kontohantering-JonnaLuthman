@@ -1,11 +1,9 @@
 <?php
-session_start();
+require_once __DIR__ . "/../private/init.php";
 require_once __DIR__ . "/../private/config.php";
 require_once __DIR__ . "/../private/includes/newsletter_functions.php";
 require_once __DIR__ . "/../private/includes/user_functions.php";
 require_once __DIR__ . "/../private/includes/utils.php";
-
-display_message();
 
 $newsletter_id = $_GET['id'];
 $newsletter = get_newsletter($newsletter_id);
@@ -25,29 +23,36 @@ if (!isset($_SESSION['user'])) {
     }
 }
 
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? '';
 
     switch ($action) {
         case 'subscribe':
             subscribe_to_newsletter($user_id, $newsletter_id);
-            $_SESSION['message'] = "You are now subscribed to " . $newsletter['title'];
-            header("Location: newsletter.php?id=" . $newsletter_id);
-            break;
+            $message = urlencode("Your are now subscribed to '" . $newsletter['title'] . "'!");
+            header("Location: newsletter.php?id=" . $newsletter_id . "&message=$message");
+            exit;
         case 'unsubscribe':
             unsubscribe_to_newsletter($user_id, $newsletter_id);
-            $_SESSION['message'] = "Your subscription to <strong> " . $newsletter['title'] . "</strong> has been cancelled!";
-            header("Location: newsletter.php?id=" . $newsletter_id);
-            break;
+            $message = urlencode("Your subscription to '" . $newsletter['title'] . "' has been cancelled!");
+            header("Location: newsletter.php?id=" . $newsletter_id . "&message=$message");
+            exit;
     }
 }
-?>
+
+require_once __DIR__ . "/../private/templates/navbar.php"; ?>
+
+
 
 <body>
     <main>
         <h2><?php echo $newsletter['title']; ?></h2>
         <p><?php echo $newsletter['description']; ?></h2>
-        <p><?php echo "Created by:" . $newsletter['user_email']; ?></p>
+        <p>Created by:
+            <?php $user = get_user_by_email($newsletter['user_email']);
+            echo $user['name']; ?>
+        </p>
         <p><?php echo $newsletter['created_at']; ?></p>
 
         <form method="POST">
@@ -64,5 +69,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             endswitch;
             ?>
         </form>
+        <?php if (isset($_GET['message'])): ?>
+            <div class="message">
+                <?php echo htmlspecialchars($_GET['message']); ?>
+            </div>
+        <?php endif; ?>
+        <a href="all_newsletters.php">Go back to all newsletters</a>
     </main>
 </body>
+<?php require_once __DIR__ . "/../private/templates/footer.php"; ?>
