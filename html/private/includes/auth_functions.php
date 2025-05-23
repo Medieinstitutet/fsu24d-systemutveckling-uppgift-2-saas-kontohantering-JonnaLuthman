@@ -92,3 +92,17 @@ function get_login_redirect_url()
         }
     }
 }
+
+function email_registered($email)
+{
+    global $connection;
+
+    $query = "SELECT email FROM `users` WHERE email = '$email'";
+    $result = $connection->query($query);
+   
+    if ($result->num_rows > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}

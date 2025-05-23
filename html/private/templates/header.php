@@ -18,11 +18,16 @@ require_once __DIR__ . '/../includes/user_functions.php';
 <body>
   <header>
     <?php
-    if (is_signed_in()) {
+    if (is_signed_in()):
       $user = current_user();
-    }
+    
     ?>
     <div class="header">
       <h1>Welcome, <?php echo ($user['name']); ?>!</h1>
     </div>
+  <?php else: ?>
+  <div class="header">
+      <h1>Welcome!</h1>
+    </div>
+     <?php endif; ?>
   </header>

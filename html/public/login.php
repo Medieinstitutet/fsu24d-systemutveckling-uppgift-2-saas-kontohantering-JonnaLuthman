@@ -5,7 +5,6 @@ require_once __DIR__ . '/../private/includes/auth_functions.php';
 require_once __DIR__ . '/../private/includes/user_functions.php';
 require_once __DIR__ . '/../private/includes/utils.php';
 
-
 $redirect_url = $_GET['redirectTo'] ?? get_login_redirect_url();
 
 if (is_signed_in()) {
@@ -22,18 +21,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $registered_user = find_user($email);
     $signed_in = sign_in($email, $password);
 
-    if ($signed_in) {
+    if ($signed_in):
         header('Location: /public/all_newsletters.php');
         exit;
-    } elseif (!$registered_user) {
+    elseif (!$registered_user):
         $_SESSION['error_message'] = 'User does not exist';
         header('Location: login.php');
         exit;
-    } else {
+    else:
         $_SESSION['error_message'] = 'Invalid password';
         header('Location: login.php');
         exit;
-    }
+    endif;
 }
 
 require_once __DIR__ . '/../private/templates/navbar.php'; ?>
@@ -41,7 +40,7 @@ require_once __DIR__ . '/../private/templates/navbar.php'; ?>
 <main>
     <p><strong><?php echo "Login" ?></strong></p>
 
-    <?php if (!empty($_SESSION['message'])):
+    <?php if (!empty($_SESSION['error_message'])):
         display_message();
     endif; ?>
 
