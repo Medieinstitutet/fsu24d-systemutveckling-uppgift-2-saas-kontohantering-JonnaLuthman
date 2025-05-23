@@ -33,6 +33,22 @@ function get_user_by_id($id)
     }
 }
 
+function get_user_by_email($email)
+{
+    global $connection;
+
+    $query = "SELECT * FROM users WHERE email='$email'";
+    $result = $connection->query($query);
+
+    if ($result && $result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+
+        return $row;
+    } else {
+        return [];
+    }
+}
+
 function get_user_id($email)
 {
     global $connection;
@@ -102,7 +118,9 @@ function change_password($new_psw, $email)
 {
     global $connection;
 
-    $query = "UPDATE `users` SET `password`='$new_psw' WHERE email='$email'";
+    $hashed_password = hash('sha256', $new_psw);
+
+    $query = "UPDATE `users` SET `password`='$hashed_password' WHERE email='$email'";
     $result = $connection->query($query);
     var_dump($result);
 

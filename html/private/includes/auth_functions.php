@@ -7,10 +7,9 @@ function sign_up($name, $email, $password, $role)
 {
     global $connection;
 
-    // $salt = SALT;
-    // $hashed_password = hash('sha256', $password.$salt);
+    $hashed_password = hash('sha256', $password);
 
-    $query = "INSERT INTO users (name, email, password, role) VALUES ('$name', '$email', '$password', '$role')";
+    $query = "INSERT INTO users (name, email, password, role) VALUES ('$name', '$email', '$hashed_password', '$role')";
 
     try {
         $connection->query($query);
@@ -24,10 +23,9 @@ function sign_in($email, $password)
 {
     global $connection;
 
-    // $salt = SALT;
-    // $hashed_password = hash('sha256', $password.$salt);
+    $hashed_password = hash('sha256', $password);
 
-    $query = "SELECT * FROM users WHERE email = '$email' AND password = '$password' LIMIT 1";
+    $query = "SELECT * FROM users WHERE email = '$email' AND password = '$hashed_password' LIMIT 1";
     $result = $connection->query($query);
     $has_user = ($result->num_rows === 1);
 
