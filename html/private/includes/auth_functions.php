@@ -70,7 +70,7 @@ function require_signed_in_user_or_redirect()
     return $_SESSION['user'];
 }
 
-function require_role($email)
+function require_role()
 {
     $user = require_signed_in_user_or_redirect();
     $user_role = user_has_role($user['email']);

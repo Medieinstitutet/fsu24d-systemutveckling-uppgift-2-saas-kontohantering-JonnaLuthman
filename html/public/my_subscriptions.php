@@ -7,10 +7,12 @@ require_once __DIR__ . '/../private/includes/user_functions.php';
 
 $user = require_signed_in_user_or_redirect();
 $user_email = $user['email'];
+$user_role = require_role();
 
-if (!require_role($user_email) === 'subscriber') {
+if ($user_role !== 'subscriber') {
     header("Location: /public/not_authorized.php");
-};
+    exit;
+}
 
 $user_id = get_user_id($user_email);
 $newsletters = '';

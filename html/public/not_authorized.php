@@ -1,9 +1,11 @@
 <?php
+    require_once __DIR__ . '/../private/templates/navbar.php';
     require_once __DIR__ . '/../private/templates/header.php';
 ?>
 
 <main>
-    <p><strong><?php echo  "Not authorized" ?></strong></p>
+    <p><strong>You are not authorized to this page. </strong></p>
+    <a href="all_newsletters.php">Go back</a>
 </main>
 
 

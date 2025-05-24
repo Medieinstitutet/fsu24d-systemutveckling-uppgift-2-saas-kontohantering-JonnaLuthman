@@ -18,7 +18,7 @@ require_once __DIR__ . "/../includes/auth_functions.php";
       <?php elseif ($_SESSION['user']['role'][0] === "customer") : ?>
         <li><a href="/public/my_newsletters.php">My newsletters</a></li>
         <li><a href="/public/my_subscribers.php">My subscribers</a></li>
-                <li><a href="/public/create_newsletter.php">Create</a></li>
+                <li><a href="/public/create_newsletter.php">Create newsletter</a></li>
 
       <?php endif; ?>
       <li><a href="/public/logout.php">Sign out</a></li>

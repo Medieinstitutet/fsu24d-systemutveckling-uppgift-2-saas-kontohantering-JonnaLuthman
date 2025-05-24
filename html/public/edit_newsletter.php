@@ -1,8 +1,10 @@
 <?php
 require_once __DIR__ . "/../private/init.php";
 require_once __DIR__ . "/../private/includes/newsletter_functions.php";
+require_once __DIR__ . "/../private/includes/auth.php";
 require_once __DIR__ . "/../private/includes/utils.php";
 
+$user_role = require_role();
 
 $newsletter_id = $_GET['id'] ?? '';
 $newsletter = get_newsletter_summary($newsletter_id);
