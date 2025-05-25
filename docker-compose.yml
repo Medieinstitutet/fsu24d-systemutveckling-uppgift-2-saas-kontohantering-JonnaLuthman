@@ -8,11 +8,13 @@ services:
     restart: no
     environment:
       MYSQL_ROOT_PASSWORD: notSecureChangeMe
+      MYSQL_DATABASE: saasapp
   site:
     depends_on:
       - db
     volumes:
-      - ./html:/var/www/html
+      - ./html/public:/var/www/html
+      - ./html/private:/var/www/private
     image: php-local:local
     restart: no
     ports:

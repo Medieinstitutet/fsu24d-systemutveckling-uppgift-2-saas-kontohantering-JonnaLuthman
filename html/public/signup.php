@@ -22,10 +22,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $user = current_user();
             if ($_POST['role'] === "customer"):
                 $result = create_newsletter($user['email'], 'First newsletter', 'Thank you for registrating!');
-                header('Location: /all_newsletters/?message=created');
+                header('Location: /?message=created');
                 exit;
             elseif ($_POST['role'] === "subscriber"):
-                header('Location: /public/all_newsletters.php');
+                header('Location: /');
                 exit;
             endif;
         }

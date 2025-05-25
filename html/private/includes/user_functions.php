@@ -107,10 +107,11 @@ function get_reset_code($reset_code)
     $query = "SELECT email, reset_code FROM password_resets WHERE reset_code='$reset_code'";
     $result = $connection->query($query);
 
-    if ($result && $result->num_rows > 0) {
+      if ($result && $result->num_rows > 0) {
         return $result->fetch_assoc();
     } else {
-        return ['error' => $connection->error];
+        echo "<p>SQL-fel: " . $connection->error . "</p>";
+        return null;
     }
 }
 
@@ -122,7 +123,6 @@ function change_password($new_psw, $email)
 
     $query = "UPDATE `users` SET `password`='$hashed_password' WHERE email='$email'";
     $result = $connection->query($query);
-    var_dump($result);
 
     if ($result === true) {
         return true;

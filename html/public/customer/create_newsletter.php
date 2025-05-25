@@ -1,10 +1,10 @@
 <?php 
-require_once __DIR__ . '/../private/init.php';
-require_once __DIR__ . '/../private/includes/mail_functions.php';
-require_once __DIR__ . '/../private/includes/newsletter_functions.php';
-require_once __DIR__ . '/../private/includes/user_functions.php';
-require_once __DIR__ . '/../private/includes/utils.php';
-require_once __DIR__ . '/../private/templates/navbar.php';
+require_once __DIR__ . '/../../private/init.php';
+require_once __DIR__ . '/../../private/includes/mail_functions.php';
+require_once __DIR__ . '/../../private/includes/newsletter_functions.php';
+require_once __DIR__ . '/../../private/includes/user_functions.php';
+require_once __DIR__ . '/../../private/includes/utils.php';
+require_once __DIR__ . '/../../private/templates/navbar.php';
 
 $user = current_user();
 
@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 if (!find_user($user['email'])) {
     $_SESSION['error_message'] = 'User not found. Please register first.';
-    header('Location: send_newsletter.php');
+    header('Location: /customer/create_newsletter.php');
     exit;
 }
 
@@ -23,7 +23,7 @@ $newsletter_result = create_newsletter($user['email'], $title, $description);
     if(!$newsletter_result) {
             $_SESSION['error_message'] = 'Could not create newsletter';
     } else {
-        $_SESSION['message'] = 'Newsletter created succesfully. Go to <a href="/public/my_newsletters.php">My newsletters</a> to see your newsletters.';
+        $_SESSION['message'] = 'Newsletter created succesfully. Click <a href="/customer/my_newsletters.php">here</a> to see your newsletters.';
     }
 }
 ?>
@@ -41,9 +41,11 @@ $newsletter_result = create_newsletter($user['email'], $title, $description);
     <button type="submit">Send</button>
 </form>
 
+<button><a href="/">Cancel</a></button>
+
 <?php if (!empty($_SESSION['message'])):
     display_message();
 endif;
 
-require_once __DIR__ . '/../private/templates/footer.php'; 
+require_once __DIR__ . '/../../private/templates/footer.php'; 
 ?>

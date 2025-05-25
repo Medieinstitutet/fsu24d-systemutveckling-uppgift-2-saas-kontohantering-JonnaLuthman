@@ -6,17 +6,15 @@ global $connection;
 function sign_up($name, $email, $password, $role)
 {
     global $connection;
-
     $hashed_password = hash('sha256', $password);
-
     $query = "INSERT INTO users (name, email, password, role) VALUES ('$name', '$email', '$hashed_password', '$role')";
+    $result = $connection->query($query);
 
-    try {
-        $connection->query($query);
-        return true;
-    } catch (Exception $e) {
-        return false;
+    if (!$result) {
+        die("SQL-fel: " . $connection->error);
     }
+
+    return true;
 }
 
 function sign_in($email, $password)
@@ -78,28 +76,13 @@ function require_role()
     return $user_role;
 }
 
-function get_login_redirect_url()
-{
-    $user = current_user();
-    if ($user) {
-        $user_role = user_has_role($user['email']);
-
-        switch ($user_role) {
-            case 'customer':
-                return '/public/dashboard_customer.php';
-            case 'subscriber':
-                return '/public/dashboard_subscriber.php';
-        }
-    }
-}
-
 function email_registered($email)
 {
     global $connection;
 
     $query = "SELECT email FROM `users` WHERE email = '$email'";
     $result = $connection->query($query);
-   
+
     if ($result->num_rows > 0) {
         return true;
     } else {

@@ -1,12 +1,11 @@
 <?php
-require_once __DIR__ . "/../private/init.php";
-require_once __DIR__ . "/../private/config.php";
-require_once __DIR__ . "/../private/includes/user_functions.php";
-require_once __DIR__ . "/../private/includes/utils.php";
+require_once __DIR__ . "/../../private/init.php";
+require_once __DIR__ . "/../../private/config.php";
+require_once __DIR__ . "/../../private/includes/user_functions.php";
+require_once __DIR__ . "/../../private/includes/utils.php";
 
 
 // TODO: put success and error message in url and use i html to show messages to user.
-
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $reset_code = $_POST['reset_code'];
@@ -14,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $repeat_new_psw = $_POST['repeat_new_psw'];
 
     $result = get_reset_code($reset_code);
-
+    
     if (!$result) {
         $_SESSION['error_message'] = "Invalid reset code";
     } elseif ($new_psw !== $repeat_new_psw) {
@@ -25,15 +24,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($change_password_result === true) {
             delete_reset_code($email);
-            $_SESSION['message'] = "Your password has been updated! Go back to login <a href='/public/login.php'> here </a>";
-            // header(Location: "/public/login.php?message=passwordupdated")
+            $_SESSION['message'] = "Your password has been updated! Go back to login <a href='../login.php'> here </a>.";
+
         } else {
             $_SESSION['error_message'] = "Could not update password";
         }
     }
 }
 
-require_once __DIR__ . "/../private/templates/navbar.php";
+require_once __DIR__ . "/../../private/templates/navbar.php";
 
 ?>
 
@@ -56,4 +55,4 @@ require_once __DIR__ . "/../private/templates/navbar.php";
 
     <button type="submit">Change password</button>
 </form>
-<?php require_once __DIR__ . "/../private/templates/footer.php"; ?>
+<?php require_once __DIR__ . "/../../private/templates/footer.php"; ?>

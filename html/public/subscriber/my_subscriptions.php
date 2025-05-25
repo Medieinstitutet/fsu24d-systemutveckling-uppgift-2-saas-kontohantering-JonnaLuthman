@@ -1,8 +1,8 @@
 <?php
-require_once __DIR__ . '/../private/init.php';
-require_once __DIR__ . '/../private/includes/newsletter_functions.php';
-require_once __DIR__ . '/../private/includes/auth_functions.php';
-require_once __DIR__ . '/../private/includes/user_functions.php';
+require_once __DIR__ . '/../../private/init.php';
+require_once __DIR__ . '/../../private/includes/newsletter_functions.php';
+require_once __DIR__ . '/../../private/includes/auth_functions.php';
+require_once __DIR__ . '/../../private/includes/user_functions.php';
 
 
 $user = require_signed_in_user_or_redirect();
@@ -10,7 +10,7 @@ $user_email = $user['email'];
 $user_role = require_role();
 
 if ($user_role !== 'subscriber') {
-    header("Location: /public/not_authorized.php");
+    header("Location: /not_authorized.php");
     exit;
 }
 
@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-require_once __DIR__ . '/../private/templates/navbar.php';
+require_once __DIR__ . '/../../private/templates/navbar.php';
 
 ?>
 
@@ -51,7 +51,7 @@ require_once __DIR__ . '/../private/templates/navbar.php';
 
     <?php if (!$newsletters || count($newsletters) === 0) {
     ?> <p>You are not subscribing to any newsletters yet.</p>
-        <a href="all_newsletters.php">See all newsletters</a>
+        <a href="../index.php">See all newsletters</a>
         <?php } else {
         foreach ($newsletters as $newsletter):
         ?>
@@ -70,4 +70,4 @@ require_once __DIR__ . '/../private/templates/navbar.php';
     }
     ?>
 </main>
-<?php require_once __DIR__ . '/../private/templates/footer.php'; ?>
+<?php require_once __DIR__ . '/../../private/templates/footer.php'; ?>

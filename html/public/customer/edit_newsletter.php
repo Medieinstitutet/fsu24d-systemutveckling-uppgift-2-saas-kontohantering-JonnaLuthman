@@ -1,8 +1,8 @@
 <?php
-require_once __DIR__ . "/../private/init.php";
-require_once __DIR__ . "/../private/includes/newsletter_functions.php";
-require_once __DIR__ . "/../private/includes/auth.php";
-require_once __DIR__ . "/../private/includes/utils.php";
+require_once __DIR__ . "/../../private/init.php";
+require_once __DIR__ . "/../../private/includes/newsletter_functions.php";
+require_once __DIR__ . "/../../private/includes/auth_functions.php";
+require_once __DIR__ . "/../../private/includes/utils.php";
 
 $user_role = require_role();
 
@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['delete'])) {
         if (delete_newsletter($newsletter_id)) {
             $_SESSION['message'] = "Newsletter deleted successfully";
-            header("Location: my_newsletters.php");
+            header("Location: /customer/my_newsletters.php");
             exit;
         }
     } else {
@@ -22,13 +22,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if (update_newsletter($title, $description, $newsletter_id)) {
             $_SESSION['message'] = "Newsletter updated successfully";
-            header("Location: edit_newsletter.php?id=" . $newsletter_id);
+            header("Location: /customer/edit_newsletter.php?id=" . $newsletter_id);
             exit;
         }
     }
 }
 
-require_once __DIR__ . '/../private/templates/navbar.php';
+require_once __DIR__ . '/../../private/templates/navbar.php';
 ?>
 
 <h1>Edit newsletter</h1>
@@ -49,6 +49,8 @@ require_once __DIR__ . '/../private/templates/navbar.php';
     <button type="submit">Delete</button>
 </form>
 
+<a href="/customer/my_newsletters.php">Go back to my newsletters</a>
+
 <?php
-require_once __DIR__ . '/../private/templates/footer.php';
+require_once __DIR__ . '/../../private/templates/footer.php';
 ?>

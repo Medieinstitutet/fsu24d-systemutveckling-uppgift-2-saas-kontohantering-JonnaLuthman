@@ -1,15 +1,15 @@
 <?php
-require_once __DIR__ . '/../private/init.php';
-require_once __DIR__ . '/../private/includes/mail_functions.php';
-require_once __DIR__ . '/../private/includes/user_functions.php';
-require_once __DIR__ . '/../private/includes/utils.php';
+require_once __DIR__ . '/../../private/init.php';
+require_once __DIR__ . '/../../private/includes/mail_functions.php';
+require_once __DIR__ . '/../../private/includes/user_functions.php';
+require_once __DIR__ . '/../../private/includes/utils.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // NOTE: Constant added. Change in future when it shuld be sent to an actual user.
+    // NOTE: Constant added. Change in future when it should be sent to an actual user.
     $email = $_POST['email'];
 
     $reset_code = bin2hex(random_bytes(8));
-    $text = "Hello, this is your code to reset your password: $reset_code . Press following link to reset your password: http://localhost:8080/public/change_password.php. ";
+    $text = "Hello, this is your reset code: $reset_code . Press following link to reset your password: http://localhost:8080/auth/change_password.php. ";
     
     if (!find_user($email)) {
         $_SESSION['message'] = 'We cannot find you email.';
@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-require_once __DIR__ . '/../private/templates/navbar.php';
+require_once __DIR__ . '/../../private/templates/navbar.php';
 
 ?>
 
@@ -47,7 +47,7 @@ require_once __DIR__ . '/../private/templates/navbar.php';
             </br>
             <button type=submit>Reset password</button>
         </form>
-        <span><a href="login.php">Go back to login</a></span>
+        <span><a href="../login.php">Go back to login</a></span>
         <?php 
             if (!empty($_SESSION['message']) || !empty($_SESSION['error_message'])):
                 display_message();
@@ -57,5 +57,5 @@ require_once __DIR__ . '/../private/templates/navbar.php';
 </main>
 
 <?php
-require_once __DIR__ . '/../private/templates/footer.php';
+require_once __DIR__ . '/../../private/templates/footer.php';
 ?>

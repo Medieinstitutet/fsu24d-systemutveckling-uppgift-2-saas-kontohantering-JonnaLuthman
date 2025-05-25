@@ -5,10 +5,8 @@ require_once __DIR__ . '/../private/includes/auth_functions.php';
 require_once __DIR__ . '/../private/includes/user_functions.php';
 require_once __DIR__ . '/../private/includes/utils.php';
 
-$redirect_url = $_GET['redirectTo'] ?? get_login_redirect_url();
-
 if (is_signed_in()) {
-    header("Location: $redirect_url");
+    header("Location: /");
     exit;
 }
 
@@ -22,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $signed_in = sign_in($email, $password);
 
     if ($signed_in):
-        header('Location: /public/all_newsletters.php');
+        header('Location: /');
         exit;
     elseif (!$registered_user):
         $_SESSION['error_message'] = 'User does not exist';
@@ -56,7 +54,7 @@ require_once __DIR__ . '/../private/templates/navbar.php'; ?>
         <input type="hidden" name="role" />
         </br>
         <button type="submit">Sign in</button>
-        <span>Forgot <a href="reset_password_page.php">password?</a></span>
+        <span>Forgot <a href="/auth/reset_password_page.php">password?</a></span>
 
     </form>
 
